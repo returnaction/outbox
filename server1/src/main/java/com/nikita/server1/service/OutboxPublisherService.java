@@ -24,7 +24,7 @@ public class OutboxPublisherService {
 
     @Scheduled(fixedDelay = 5000)
     public void publishOutboxEvents() {
-        List<OutboxEvent> events = outboxRepository.findByStatus("NEW");
+        List<OutboxEvent> events = outboxRepository.findTopNByStatus("NEW", 10);
 
         for (OutboxEvent event : events) {
             OrderDto payload = event.getPayload();
